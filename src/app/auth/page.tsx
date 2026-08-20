@@ -64,6 +64,7 @@ function AuthPage() {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="admin@company.com"
+              suppressHydrationWarning
               className="mt-1.5 w-full rounded-md border border-border bg-surface-2/60 px-3 py-2.5 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
             />
           </div>
@@ -79,6 +80,7 @@ function AuthPage() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               placeholder="••••••••••••"
+              suppressHydrationWarning
               className="mt-1.5 w-full rounded-md border border-border bg-surface-2/60 px-3 py-2.5 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
             />
           </div>
