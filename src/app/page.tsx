@@ -19,6 +19,8 @@ import {
   getTestimonials,
 } from "@/lib/content.functions";
 
+export const dynamic = "force-dynamic";
+
 const WHY_US = [
   { title: "Senior-only delivery teams", body: "No junior hand-offs. The people who scope your project build it." },
   { title: "Fixed scope after discovery", body: "One paid discovery week, then a price and date we hold ourselves to." },

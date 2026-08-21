@@ -14,6 +14,8 @@ export const metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 async function getBlogData() {
   return await getBlogPosts();
 }

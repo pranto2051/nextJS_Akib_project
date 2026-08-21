@@ -15,6 +15,8 @@ export const metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 function ProductIcon({ name }: { name: string }) {
   const Icon = (Icons as unknown as Record<string, Icons.LucideIcon>)[name] ?? Sparkles;
   return <Icon className="h-5 w-5 text-primary-foreground" />;

@@ -14,6 +14,8 @@ export const metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 const PERKS = [
   "Hybrid by default, fully remote if you deliver",
   "Annual learning budget and conference travel",

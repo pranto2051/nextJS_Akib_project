@@ -15,6 +15,8 @@ export const metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 const VALUES = [
   { title: "Clarity over cleverness", body: "Boring, readable systems your next engineer can maintain." },
   { title: "Own the outcome", body: "We measure success by the metric the client cares about." },

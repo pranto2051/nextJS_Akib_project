@@ -15,6 +15,8 @@ export const metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 async function getServicesData() {
   return await getServices();
 }
