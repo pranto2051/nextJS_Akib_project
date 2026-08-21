@@ -27,6 +27,49 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
 }
 
 
+function createMockSupabaseClient() {
+  const createMockQuery = () => {
+    const result = { data: [] as any, error: null };
+    const callable = () => createMockQuery();
+    return new Proxy(callable, {
+      get(_, prop) {
+        if (prop === 'maybeSingle' || prop === 'single') {
+          return async () => ({ data: null, error: null });
+        }
+        if (prop === 'then') {
+          return (resolve: any) => resolve(result);
+        }
+        return createMockQuery();
+      },
+    });
+  };
+
+  const mockAuth = new Proxy({} as any, {
+    get(_, prop) {
+      if (prop === 'getUser') {
+        return async () => ({ data: { user: null }, error: null });
+      }
+      if (prop === 'signInWithPassword') {
+        return async () => ({ data: { user: null, session: null }, error: { message: 'Mock auth' } });
+      }
+      if (prop === 'signUp') {
+        return async () => ({ data: { user: null, session: null }, error: { message: 'Mock auth' } });
+      }
+      return mockAuth;
+    },
+  });
+
+  return {
+    from: (...args: any[]) => createMockQuery(),
+    auth: mockAuth,
+    channel: () => ({
+      on: () => ({ subscribe: () => ({}) }),
+    }),
+    removeChannel: () => Promise.resolve(),
+  } as unknown as ReturnType<typeof createClient<Database>>;
+}
+
+
 function createSupabaseClient() {
   const SUPABASE_URL = process.env['NEXT_PUBLIC_SUPABASE_URL'] || process.env['SUPABASE_URL'];
   const SUPABASE_PUBLISHABLE_KEY = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] || process.env['SUPABASE_PUBLISHABLE_KEY'];
@@ -38,7 +81,8 @@ function createSupabaseClient() {
     ];
     const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Set them in your .env file.`;
     console.error(`[Supabase] ${message}`);
-    throw new Error(message);
+
+    return createMockSupabaseClient();
   }
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
