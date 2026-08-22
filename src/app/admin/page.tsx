@@ -1,18 +1,18 @@
 "use client";
 
 import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
-import { 
-  Briefcase, 
-  FileText, 
-  FolderKanban, 
-  Inbox, 
-  Mail, 
-  Package, 
+import {
+  Briefcase,
+  FileText,
+  FolderKanban,
+  Inbox,
+  Mail,
+  Package,
   Users,
   TrendingUp,
   Clock,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
 } from "lucide-react";
 
 import { GradientText } from "@/components/shared/primitives";
@@ -82,17 +82,13 @@ function AdminOverview() {
 
       {/* Key Metrics */}
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Metric 
-          label="New requests today" 
-          value={leads.data?.today ?? "—"} 
-          accent 
+        <Metric
+          label="New requests today"
+          value={leads.data?.today ?? "—"}
+          accent
           icon={TrendingUp}
         />
-        <Metric 
-          label="This week" 
-          value={leads.data?.week ?? "—"} 
-          icon={Clock}
-        />
+        <Metric label="This week" value={leads.data?.week ?? "—"} icon={Clock} />
         <Metric
           label="Conversion rate"
           value={leads.data ? `${Math.round(leads.data.conversionRate * 100)}%` : "—"}
@@ -156,14 +152,14 @@ function AdminOverview() {
                   <span className="text-sm text-muted-foreground ml-2">
                     ({leads.data.topProduct[1]} requests)
                   </span>
-                ) : ""}
+                ) : (
+                  ""
+                )}
               </p>
             </div>
             <div className="p-4 rounded-lg bg-surface-2 border border-border">
               <p className="text-xs text-muted-foreground mb-1">Top Category</p>
-              <p className="font-semibold text-lg">
-                {leads.data?.topCategory?.[0] ?? "—"}
-              </p>
+              <p className="font-semibold text-lg">{leads.data?.topCategory?.[0] ?? "—"}</p>
             </div>
             <div className="space-y-2">
               <p className="text-xs text-muted-foreground uppercase tracking-wider">All Products</p>
@@ -171,9 +167,14 @@ function AdminOverview() {
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 4)
                 .map(([name, value]) => (
-                  <div key={name} className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
+                  <div
+                    key={name}
+                    className="flex items-center justify-between py-2 border-b border-border/50 last:border-0"
+                  >
                     <span className="text-sm truncate flex-1">{name}</span>
-                    <span className="text-sm font-semibold text-muted-foreground ml-4">{value}</span>
+                    <span className="text-sm font-semibold text-muted-foreground ml-4">
+                      {value}
+                    </span>
                   </div>
                 ))}
               {leads.data && Object.keys(leads.data.byProduct).length === 0 && (
@@ -227,16 +228,21 @@ function AdminOverview() {
               </thead>
               <tbody>
                 {(messages.data ?? []).map((row) => (
-                  <tr key={String(row['id'])} className="border-t border-border hover:bg-surface-2/50 transition-colors">
-                    <td className="px-4 py-3 font-medium">{String(row['name'] ?? "")}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{String(row['email'] ?? "")}</td>
+                  <tr
+                    key={String(row["id"])}
+                    className="border-t border-border hover:bg-surface-2/50 transition-colors"
+                  >
+                    <td className="px-4 py-3 font-medium">{String(row["name"] ?? "")}</td>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      {String(row["email"] ?? "")}
+                    </td>
                     <td className="px-4 py-3">
                       <span className="inline-flex items-center rounded-full border border-border/70 px-2 py-0.5 text-xs font-medium">
-                        {String(row['status'] ?? "")}
+                        {String(row["status"] ?? "")}
                       </span>
                     </td>
                     <td className="hidden max-w-md truncate px-4 py-3 text-muted-foreground sm:table-cell">
-                      {String(row['message'] ?? "")}
+                      {String(row["message"] ?? "")}
                     </td>
                   </tr>
                 ))}
@@ -265,7 +271,7 @@ function Metric({
   label: string;
   value: string | number;
   accent?: boolean;
-  icon?: any;
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }) {
   return (
     <div
